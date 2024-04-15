@@ -19,7 +19,8 @@ PaperVerbAudioProcessor::PaperVerbAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+apvts(*this, nullptr, "Parameters", createParameterLayout())
 #endif
 {
 }
@@ -93,8 +94,13 @@ void PaperVerbAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void PaperVerbAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    juce::dsp::ProcessSpec spec;
+    
+    spec.sampleRate = sampleRate;
+    spec.numChannels = getTotalNumInputChannels();
+    spec.maximumBlockSize = samplesPerBlock;
+    
+    reverb.prepare(spec);
 }
 
 void PaperVerbAudioProcessor::releaseResources()
@@ -144,18 +150,14 @@ void PaperVerbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
-    }
+    juce::dsp::AudioBlock<float> block(buffer);
+    juce::dsp::ProcessContextReplacing<float> context(block);
+    
+    auto parameters = updateReverbParameters();
+    
+    reverb.setParameters(parameters);
+    
+    reverb.process(context);
 }
 
 //==============================================================================
@@ -166,7 +168,8 @@ bool PaperVerbAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* PaperVerbAudioProcessor::createEditor()
 {
-    return new PaperVerbAudioProcessorEditor (*this);
+//    return new PaperVerbAudioProcessorEditor (*this);
+    return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
@@ -188,4 +191,31 @@ void PaperVerbAudioProcessor::setStateInformation (const void* data, int sizeInB
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new PaperVerbAudioProcessor();
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout PaperVerbAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    
+    auto percentageRange = juce::NormalisableRange<float>(0.f, 1.f, 0.05f, 1.f);
+    
+    layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Size", 1), "Size", percentageRange, 0.5f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Damping", 2), "Damping", percentageRange, 0.5f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Width", 3), "Width", percentageRange, 0.5f));
+    
+    return layout;
+}
+
+juce::Reverb::Parameters PaperVerbAudioProcessor::updateReverbParameters()
+{
+    juce::Reverb::Parameters parameters;
+    
+    parameters.roomSize = apvts.getRawParameterValue("Size")->load();
+    parameters.damping = apvts.getRawParameterValue("Damping")->load();
+    parameters.width = apvts.getRawParameterValue("Width")->load();
+    
+    parameters.dryLevel = 0;
+    parameters.wetLevel = 1;
+    
+    return parameters;
 }

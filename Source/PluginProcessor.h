@@ -55,5 +55,13 @@ public:
 
 private:
     //==============================================================================
+    juce::AudioProcessorValueTreeState apvts;
+    
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    
+    juce::dsp::Reverb reverb;
+    
+    juce::Reverb::Parameters updateReverbParameters();
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PaperVerbAudioProcessor)
 };

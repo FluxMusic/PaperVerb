@@ -100,7 +100,16 @@ void PaperVerbAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     spec.numChannels = getTotalNumInputChannels();
     spec.maximumBlockSize = samplesPerBlock;
     
+    auto parameters = updateReverbParameters();
+    reverb.setParameters(parameters);
+    
+    preDelay.setMaximumDelayInSamples(sampleRate);
+    
+    preDelay.prepare(spec);
+    
     reverb.prepare(spec);
+    
+    dryWetMixer.prepare(spec);
 }
 
 void PaperVerbAudioProcessor::releaseResources()
@@ -149,15 +158,28 @@ void PaperVerbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-
+    
+    preDelay.setDelay(calculateTimeToSamples(apvts.getRawParameterValue("PreDelay")->load()));
+    
+    auto parameters = updateReverbParameters();
+    reverb.setParameters(parameters);
+    
+    juce::AudioBuffer<float> dryBuffer;
+    dryBuffer.makeCopyOf(buffer);
+    juce::dsp::AudioBlock<float> dryBlock(buffer);
+    
+    dryWetMixer.pushDrySamples(dryBlock);
+    
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
     
-    auto parameters = updateReverbParameters();
-    
-    reverb.setParameters(parameters);
+    preDelay.process(context);
     
     reverb.process(context);
+    
+    dryWetMixer.setWetMixProportion(apvts.getRawParameterValue("WetAmount")->load());
+    
+    dryWetMixer.mixWetSamples(block);
 }
 
 //==============================================================================
@@ -198,11 +220,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout PaperVerbAudioProcessor::cre
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     
     auto percentageRange = juce::NormalisableRange<float>(0.f, 1.f, 0.05f, 1.f);
+    auto preDelayRange = juce::NormalisableRange<float>(0.f, 100.f, 1.f, 1.f);
     
     layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Size", 1), "Size", percentageRange, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Damping", 2), "Damping", percentageRange, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Width", 3), "Width", percentageRange, 0.5f));
-    layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("WetAmount", 4), "WetAmount", percentageRange, 1.f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("WetAmount", 4), "Wet Amount", percentageRange, 1.f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("PreDelay", 5), "Pre Delay", preDelayRange, 10.f));
     
     return layout;
 }
@@ -219,4 +243,11 @@ juce::Reverb::Parameters PaperVerbAudioProcessor::updateReverbParameters()
     parameters.dryLevel = 1 - parameters.wetLevel;
     
     return parameters;
+}
+
+float PaperVerbAudioProcessor::calculateTimeToSamples(float delayInMilliseconds)
+{
+    const auto sampleRate = getSampleRate();
+    
+    return static_cast<float>(delayInMilliseconds * (sampleRate / 1000));
 }

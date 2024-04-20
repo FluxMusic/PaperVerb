@@ -63,5 +63,11 @@ private:
     
     juce::Reverb::Parameters updateReverbParameters();
     
+    juce::dsp::DelayLine<float> preDelay;
+    
+    float calculateTimeToSamples(float delayInMilliseconds);
+    
+    juce::dsp::DryWetMixer<float> dryWetMixer;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PaperVerbAudioProcessor)
 };

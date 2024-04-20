@@ -202,6 +202,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout PaperVerbAudioProcessor::cre
     layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Size", 1), "Size", percentageRange, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Damping", 2), "Damping", percentageRange, 0.5f));
     layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Width", 3), "Width", percentageRange, 0.5f));
+    layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("WetAmount", 4), "WetAmount", percentageRange, 1.f));
     
     return layout;
 }
@@ -214,8 +215,8 @@ juce::Reverb::Parameters PaperVerbAudioProcessor::updateReverbParameters()
     parameters.damping = apvts.getRawParameterValue("Damping")->load();
     parameters.width = apvts.getRawParameterValue("Width")->load();
     
-    parameters.dryLevel = 0;
-    parameters.wetLevel = 1;
+    parameters.wetLevel = apvts.getRawParameterValue("WetAmount")->load();
+    parameters.dryLevel = 1 - parameters.wetLevel;
     
     return parameters;
 }

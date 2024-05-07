@@ -4,6 +4,25 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="Jt3yc4" name="PaperVerb">
     <GROUP id="{BE59F4FB-FF77-5898-8162-1A102B21607F}" name="Source">
+      <GROUP id="{7F2A9133-092E-6E75-5883-8420B6253291}" name="Assets">
+        <FILE id="bkk2Bg" name="DryWetSlider.svg" compile="0" resource="1"
+              file="Source/Assets/DryWetSlider.svg"/>
+        <FILE id="hI5UnE" name="DryWetSliderKnob.svg" compile="0" resource="1"
+              file="Source/Assets/DryWetSliderKnob.svg"/>
+        <FILE id="xOmzgZ" name="Knob.svg" compile="0" resource="1" file="Source/Assets/Knob.svg"/>
+      </GROUP>
+      <GROUP id="{2C49AB59-708B-25BE-87FF-BC863DBE47D7}" name="Components">
+        <FILE id="Nq87R9" name="PaperKnob.cpp" compile="1" resource="0" file="Source/Components/PaperKnob.cpp"/>
+        <FILE id="LcQZA9" name="PaperKnob.h" compile="0" resource="0" file="Source/Components/PaperKnob.h"/>
+        <FILE id="QjdCnN" name="PaperSlider.cpp" compile="1" resource="0" file="Source/Components/PaperSlider.cpp"/>
+        <FILE id="YeKKjl" name="PaperSlider.h" compile="0" resource="0" file="Source/Components/PaperSlider.h"/>
+      </GROUP>
+      <GROUP id="{E7889F49-6E2C-A0E2-7987-A12749C6EB0E}" name="LookAndFeel">
+        <FILE id="eAfHCo" name="PaperLookAndFeel.cpp" compile="1" resource="0"
+              file="Source/LookAndFeel/PaperLookAndFeel.cpp"/>
+        <FILE id="LwJl1l" name="PaperLookAndFeel.h" compile="0" resource="0"
+              file="Source/LookAndFeel/PaperLookAndFeel.h"/>
+      </GROUP>
       <FILE id="DHYsIs" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="vp8Y5A" name="PluginProcessor.h" compile="0" resource="0"

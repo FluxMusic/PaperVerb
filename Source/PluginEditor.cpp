@@ -59,11 +59,15 @@ void PaperVerbAudioProcessorEditor::resized()
     
     auto bounds = fullBounds;
     bounds.removeFromTop(bounds.getHeight() / 5);
+    bounds.removeFromBottom(fullBounds.getHeight() / 20);
     bounds.removeFromLeft(fullBounds.getWidth() / 23);
     bounds.removeFromRight(fullBounds.getWidth() / 23);
     
     auto dryWetBounds = bounds.removeFromBottom(bounds.getHeight() / 4);
     dryWetSlider.setBounds(dryWetBounds);
+    
+    bounds.removeFromTop(fullBounds.getHeight() / 18);
+    bounds.removeFromBottom(fullBounds.getHeight() / 12);
     
     auto preDelayBounds = bounds.removeFromLeft(bounds.getWidth() / 4);
     auto sizeBounds = bounds.removeFromLeft(bounds.getWidth() / 3);

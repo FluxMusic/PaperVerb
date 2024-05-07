@@ -16,7 +16,7 @@
 class PaperKnob : public juce::Slider
 {
 public:
-    PaperKnob(juce::RangedAudioParameter& rap);
+    PaperKnob(juce::RangedAudioParameter& rap, juce::String label);
     
     ~PaperKnob();
     
@@ -26,4 +26,6 @@ private:
     PaperLookAndFeel lnf;
     
     juce::RangedAudioParameter* param;
+    
+    juce::String sliderName;
 };

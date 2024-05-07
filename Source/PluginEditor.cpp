@@ -12,10 +12,10 @@
 //==============================================================================
 PaperVerbAudioProcessorEditor::PaperVerbAudioProcessorEditor (PaperVerbAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p),
-preDelaySlider(*audioProcessor.getAPVTS().getParameter("PreDelay")),
-sizeSlider(*audioProcessor.getAPVTS().getParameter("Size")),
-dampSlider(*audioProcessor.getAPVTS().getParameter("Damping")),
-widthSlider(*audioProcessor.getAPVTS().getParameter("Width")),
+preDelaySlider(*audioProcessor.getAPVTS().getParameter("PreDelay"), "Pre Delay"),
+sizeSlider(*audioProcessor.getAPVTS().getParameter("Size"), "Size"),
+dampSlider(*audioProcessor.getAPVTS().getParameter("Damping"), "Damping"),
+widthSlider(*audioProcessor.getAPVTS().getParameter("Width"), "Width"),
 dryWetSlider(*audioProcessor.getAPVTS().getParameter("WetAmount"))
 {
     // Make sure that before the constructor has finished, you've set the

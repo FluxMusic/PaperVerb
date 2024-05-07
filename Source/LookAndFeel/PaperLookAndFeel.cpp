@@ -10,7 +10,6 @@
 
 #include "PaperLookAndFeel.h"
 #include "../Components/PaperKnob.h"
-#include "../Components/PaperFieldSlider.h"
 
 void PaperLookAndFeel::drawRotarySlider(juce::Graphics& g, 
                                         int x,
@@ -41,18 +40,6 @@ void PaperLookAndFeel::drawRotarySlider(juce::Graphics& g,
             
             drawable->draw(g, 1.f, juce::AffineTransform::rotation(angle, bounds.getCentreX(), bounds.getCentreY()));
         }
-    }
-    else if (dynamic_cast<PaperFieldSlider*>(&slider))
-    {
-        if (const auto windowSVG = juce::XmlDocument::parse(BinaryData::SyncButtons_svg))
-        {
-            const auto drawable = juce::Drawable::createFromSVG(*windowSVG);
-            drawable->setTransformToFit(originalBounds.toFloat(), juce::RectanglePlacement::centred);
-            drawable->draw(g, 1.f);
-        }
-        
-        g.setColour(juce::Colours::floralwhite);
-        g.fillRect(originalBounds.reduced(originalBounds.getWidth() / 50));
     }
 }
 
@@ -88,32 +75,6 @@ void PaperLookAndFeel::drawLinearSlider(juce::Graphics& g,
         g.setColour(juce::Colours::floralwhite);
         g.fillEllipse(knobBounds.reduced(size / 20).toFloat());
         drawable->setTransformToFit(knobBounds.toFloat(), juce::RectanglePlacement::centred);
-        drawable->draw(g, 1.f);
-    }
-}
-
-void PaperLookAndFeel::drawButtonBackground(juce::Graphics& g,
-                                            juce::Button& button,
-                                            const juce::Colour& backgroundColour,
-                                            bool shouldDrawButtonAsHighlighted,
-                                            bool shouldDrawButtonAsDown)
-{
-    const auto bounds = button.getLocalBounds();
-    
-    if (button.getToggleState())
-    {
-        g.setColour(backgroundColour.darker(0.3));
-    }
-    else
-    {
-        g.setColour(backgroundColour);
-    }
-    g.fillRect(bounds.reduced(bounds.getWidth() / 50));
-    
-    if (const auto buttonSVG = juce::XmlDocument::parse(BinaryData::SyncButtons_svg))
-    {
-        const auto drawable = juce::Drawable::createFromSVG(*buttonSVG);
-        drawable->setTransformToFit(bounds.toFloat(), juce::RectanglePlacement::centred);
         drawable->draw(g, 1.f);
     }
 }

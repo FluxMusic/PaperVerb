@@ -190,8 +190,8 @@ bool PaperVerbAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* PaperVerbAudioProcessor::createEditor()
 {
-//    return new PaperVerbAudioProcessorEditor (*this);
-    return new juce::GenericAudioProcessorEditor(*this);
+    return new PaperVerbAudioProcessorEditor (*this);
+//    return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================

@@ -12,11 +12,11 @@
 //==============================================================================
 PaperVerbAudioProcessorEditor::PaperVerbAudioProcessorEditor (PaperVerbAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p),
-preDelaySlider(juce::Slider::SliderStyle::RotaryVerticalDrag, juce::Slider::TextEntryBoxPosition::NoTextBox),
-sizeSlider(juce::Slider::SliderStyle::RotaryVerticalDrag, juce::Slider::TextEntryBoxPosition::NoTextBox),
-dampSlider(juce::Slider::SliderStyle::RotaryVerticalDrag, juce::Slider::TextEntryBoxPosition::NoTextBox),
-widthSlider(juce::Slider::SliderStyle::RotaryVerticalDrag, juce::Slider::TextEntryBoxPosition::NoTextBox),
-dryWetSlider(juce::Slider::SliderStyle::LinearHorizontal, juce::Slider::TextEntryBoxPosition::NoTextBox)
+preDelaySlider(*audioProcessor.getAPVTS().getParameter("PreDelay")),
+sizeSlider(*audioProcessor.getAPVTS().getParameter("Size")),
+dampSlider(*audioProcessor.getAPVTS().getParameter("Damping")),
+widthSlider(*audioProcessor.getAPVTS().getParameter("Width")),
+dryWetSlider(*audioProcessor.getAPVTS().getParameter("WetAmount"))
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.

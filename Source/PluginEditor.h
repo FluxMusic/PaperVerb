@@ -10,6 +10,8 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Components/PaperKnob.h"
+#include "Components/PaperSlider.h"
 
 //==============================================================================
 /**
@@ -29,9 +31,9 @@ private:
     // access the processor object that created it.
     PaperVerbAudioProcessor& audioProcessor;
     
-    juce::Slider preDelaySlider, sizeSlider, dampSlider, widthSlider;
+    PaperKnob preDelaySlider, sizeSlider, dampSlider, widthSlider;
     
-    juce::Slider dryWetSlider;
+    PaperSlider dryWetSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PaperVerbAudioProcessorEditor)
 };

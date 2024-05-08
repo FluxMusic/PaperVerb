@@ -219,7 +219,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout PaperVerbAudioProcessor::cre
 {
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     
-    auto percentageRange = juce::NormalisableRange<float>(0.f, 1.f, 0.05f, 1.f);
+    auto percentageRange = juce::NormalisableRange<float>(0.f, 1.f, 0.01f, 1.f);
     auto preDelayRange = juce::NormalisableRange<float>(0.f, 100.f, 1.f, 1.f);
     
     layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID("Size", 1), "Size", percentageRange, 0.5f));

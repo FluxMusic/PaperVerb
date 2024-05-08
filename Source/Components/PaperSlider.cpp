@@ -27,14 +27,13 @@ PaperSlider::~PaperSlider()
 
 void PaperSlider::paint(juce::Graphics& g)
 {
-    const auto bounds = getLocalBounds();
+    auto bounds = getLocalBounds();
     
-    auto textBounds = bounds;
-    textBounds.removeFromBottom(textBounds.getHeight() / 1.3);
-    auto wetBounds = textBounds.removeFromRight(textBounds.getWidth() / 2);
+    auto wetBounds = bounds.removeFromTop(bounds.getHeight() / 3);
+    auto dryBounds = wetBounds.removeFromLeft(wetBounds.getWidth() / 2);
     
-    const auto minSliderPos = static_cast<double>(bounds.getX() + bounds.getWidth() / 23);
-    const auto maxSliderPos = static_cast<double>(bounds.getWidth() - bounds.getWidth() / 23);
+    const auto minSliderPos = static_cast<double>(bounds.getX() + bounds.getWidth() / 19);
+    const auto maxSliderPos = static_cast<double>(bounds.getWidth() - bounds.getWidth() / 19);
     
     const auto range = getRange();
     
@@ -50,7 +49,7 @@ void PaperSlider::paint(juce::Graphics& g)
                                       *this);
     
     g.setColour(juce::Colours::black);
-    g.setFont(bounds.getHeight() / 3);
-    g.drawFittedText("Dry", textBounds, juce::Justification::centred, 1);
+    g.setFont(wetBounds.getHeight());
+    g.drawFittedText("Dry", dryBounds, juce::Justification::centred, 1);
     g.drawFittedText("Wet", wetBounds, juce::Justification::centred, 1);
 }

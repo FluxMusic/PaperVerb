@@ -56,7 +56,7 @@ void PaperLookAndFeel::drawLinearSlider(juce::Graphics& g,
 {
     const auto bounds = juce::Rectangle<int>(x, y, width, height);
     
-    const auto size = juce::jmin(width, height) / 3;
+    const auto size = juce::jmin(width, height) / 1.3;
     
     auto knobBounds = juce::Rectangle<int>(size, size);
     knobBounds.setX(sliderPos - size / 2);

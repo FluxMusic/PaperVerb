@@ -48,6 +48,8 @@ void PaperSlider::paint(juce::Graphics& g)
                                       juce::Slider::SliderStyle::LinearBar,
                                       *this);
     
+    setMouseDragSensitivity(maxSliderPos - minSliderPos);
+    
     g.setColour(juce::Colours::black);
     g.setFont(wetBounds.getHeight());
     g.drawFittedText("Dry", dryBounds, juce::Justification::centred, 1);

@@ -33,6 +33,9 @@ dryWetSliderAttachment(audioProcessor.getAPVTS(), "WetAmount", dryWetSlider)
     addAndMakeVisible(dryWetSlider);
     
     setSize (540, 280);
+    getConstrainer()->setFixedAspectRatio(1.93);
+    setResizeLimits(540, 280, 1080, 560);
+    setResizable(true, true);
 }
 
 PaperVerbAudioProcessorEditor::~PaperVerbAudioProcessorEditor()

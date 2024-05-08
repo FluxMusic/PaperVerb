@@ -16,7 +16,12 @@ preDelaySlider(*audioProcessor.getAPVTS().getParameter("PreDelay"), "Pre Delay")
 sizeSlider(*audioProcessor.getAPVTS().getParameter("Size"), "Size"),
 dampSlider(*audioProcessor.getAPVTS().getParameter("Damping"), "Damping"),
 widthSlider(*audioProcessor.getAPVTS().getParameter("Width"), "Width"),
-dryWetSlider(*audioProcessor.getAPVTS().getParameter("WetAmount"))
+dryWetSlider(*audioProcessor.getAPVTS().getParameter("WetAmount")),
+preDelaySliderAttachment(audioProcessor.getAPVTS(), "PreDelay", preDelaySlider),
+sizeSliderAttachment(audioProcessor.getAPVTS(), "Size", sizeSlider),
+dampSliderAttachment(audioProcessor.getAPVTS(), "Damping", dampSlider),
+widthSliderAttachment(audioProcessor.getAPVTS(), "Width", widthSlider),
+dryWetSliderAttachment(audioProcessor.getAPVTS(), "WetAmount", dryWetSlider)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.

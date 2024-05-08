@@ -34,6 +34,8 @@ private:
     PaperKnob preDelaySlider, sizeSlider, dampSlider, widthSlider;
     
     PaperSlider dryWetSlider;
+    
+    juce::AudioProcessorValueTreeState::SliderAttachment preDelaySliderAttachment, sizeSliderAttachment, dampSliderAttachment, widthSliderAttachment, dryWetSliderAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PaperVerbAudioProcessorEditor)
 };

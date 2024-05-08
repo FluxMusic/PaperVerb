@@ -29,7 +29,28 @@ void PaperKnob::paint(juce::Graphics& g)
 {
     auto bounds = getLocalBounds();
     
-    const auto textBounds = bounds.removeFromBottom(bounds.getHeight() / 4);
+    juce::String valueString = "";
+    
+    if (param->getParameterID().equalsIgnoreCase("PreDelay"))
+    {
+        valueString = static_cast<juce::String>(getValue());
+        valueString.append(" ms", 3);
+    }
+    else if (param->getParameterID().equalsIgnoreCase("Size"))
+    {
+        auto range = getRange();
+        valueString = juce::String::formatted("%.2f", juce::jmap(getValue(), range.getStart(), range.getEnd(), 1.0, 10.0));
+        valueString.append(" S", 2);
+    }
+    else
+    {
+        valueString = static_cast<juce::String>(getValue() * 100);
+        valueString.append(" %", 2);
+    }
+    
+    const auto valueBounds = bounds.removeFromBottom(bounds.getHeight() / 5);
+    
+    const auto labelBounds = bounds.removeFromTop(bounds.getHeight() / 4);
     
     const auto startAngle = juce::degreesToRadians(180.f + 30.f);
     const auto endAngle = juce::degreesToRadians(180.f - 30.f) + juce::MathConstants<float>::twoPi;
@@ -47,6 +68,8 @@ void PaperKnob::paint(juce::Graphics& g)
                                       *this);
     
     g.setColour(juce::Colours::black);
-    g.setFont(textBounds.getHeight() / 1.3);
-    g.drawFittedText(sliderName, textBounds, juce::Justification::centred, 1);
+    g.setFont(valueBounds.getHeight() / 1.3);
+    g.drawFittedText(sliderName, labelBounds, juce::Justification::centred, 1);
+    
+    g.drawFittedText(static_cast<juce::String>(valueString), valueBounds, juce::Justification::centred, 1);
 }

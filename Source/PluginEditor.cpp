@@ -48,7 +48,7 @@ void PaperVerbAudioProcessorEditor::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (juce::Colours::floralwhite);
     
-    const auto fullBounds = getLocalBounds(); //Get rid when finalizing!!
+    auto bounds = getLocalBounds();
     
     auto bounds = fullBounds;
     

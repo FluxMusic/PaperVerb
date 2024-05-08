@@ -13,7 +13,7 @@
 PaperVerbAudioProcessorEditor::PaperVerbAudioProcessorEditor (PaperVerbAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p),
 preDelaySlider(*audioProcessor.getAPVTS().getParameter("PreDelay"), "Pre Delay"),
-sizeSlider(*audioProcessor.getAPVTS().getParameter("Size"), "Size"),
+sizeSlider(*audioProcessor.getAPVTS().getParameter("Size"), "Decay"),
 dampSlider(*audioProcessor.getAPVTS().getParameter("Damping"), "Damping"),
 widthSlider(*audioProcessor.getAPVTS().getParameter("Width"), "Width"),
 dryWetSlider(*audioProcessor.getAPVTS().getParameter("WetAmount")),

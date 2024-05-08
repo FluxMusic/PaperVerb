@@ -50,7 +50,9 @@ void PaperVerbAudioProcessorEditor::paint (juce::Graphics& g)
     
     auto bounds = getLocalBounds();
     
-    auto bounds = fullBounds;
+    auto outlineBounds = bounds.reduced(bounds.getHeight() / 30);
+    g.setColour(juce::Colours::black);
+    g.drawRoundedRectangle(outlineBounds.toFloat(), 15.f, bounds.getHeight() / 100);
     
     auto textBounds = bounds.removeFromTop(bounds.getHeight() / 5);
 
